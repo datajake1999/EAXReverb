@@ -2,6 +2,7 @@
 #define REVERBEFFECT_H
 
 #include <stdint.h>
+#include "efx-presets.h"
 
 #define BOOL int
 
@@ -21,94 +22,69 @@
 /* This is a user config option for modifying the overall output of the reverb effect. */
 #define ReverbBoost 1.0f
 
-/* Effect parameter ranges and defaults. */
+/* Effect parameter ranges. */
 #define EAXREVERB_MIN_DENSITY                 (0.0f)
 #define EAXREVERB_MAX_DENSITY                 (1.0f)
-#define EAXREVERB_DEFAULT_DENSITY             (1.0f)
 
 #define EAXREVERB_MIN_DIFFUSION               (0.0f)
 #define EAXREVERB_MAX_DIFFUSION               (1.0f)
-#define EAXREVERB_DEFAULT_DIFFUSION           (1.0f)
 
 #define EAXREVERB_MIN_GAIN                    (0.0f)
 #define EAXREVERB_MAX_GAIN                    (1.0f)
-#define EAXREVERB_DEFAULT_GAIN                (0.32f)
 
 #define EAXREVERB_MIN_GAINHF                  (0.0f)
 #define EAXREVERB_MAX_GAINHF                  (1.0f)
-#define EAXREVERB_DEFAULT_GAINHF              (0.89f)
 
 #define EAXREVERB_MIN_GAINLF                  (0.0f)
 #define EAXREVERB_MAX_GAINLF                  (1.0f)
-#define EAXREVERB_DEFAULT_GAINLF              (1.0f)
 
 #define EAXREVERB_MIN_DECAY_TIME              (0.1f)
 #define EAXREVERB_MAX_DECAY_TIME              (20.0f)
-#define EAXREVERB_DEFAULT_DECAY_TIME          (1.49f)
 
 #define EAXREVERB_MIN_DECAY_HFRATIO           (0.1f)
 #define EAXREVERB_MAX_DECAY_HFRATIO           (2.0f)
-#define EAXREVERB_DEFAULT_DECAY_HFRATIO       (0.83f)
 
 #define EAXREVERB_MIN_DECAY_LFRATIO           (0.1f)
 #define EAXREVERB_MAX_DECAY_LFRATIO           (2.0f)
-#define EAXREVERB_DEFAULT_DECAY_LFRATIO       (1.0f)
 
 #define EAXREVERB_MIN_REFLECTIONS_GAIN        (0.0f)
 #define EAXREVERB_MAX_REFLECTIONS_GAIN        (3.16f)
-#define EAXREVERB_DEFAULT_REFLECTIONS_GAIN    (0.05f)
 
 #define EAXREVERB_MIN_REFLECTIONS_DELAY       (0.0f)
 #define EAXREVERB_MAX_REFLECTIONS_DELAY       (0.3f)
-#define EAXREVERB_DEFAULT_REFLECTIONS_DELAY   (0.007f)
-
-#define EAXREVERB_DEFAULT_REFLECTIONS_PAN_XYZ (0.0f)
 
 #define EAXREVERB_MIN_LATE_REVERB_GAIN        (0.0f)
 #define EAXREVERB_MAX_LATE_REVERB_GAIN        (10.0f)
-#define EAXREVERB_DEFAULT_LATE_REVERB_GAIN    (1.26f)
 
 #define EAXREVERB_MIN_LATE_REVERB_DELAY       (0.0f)
 #define EAXREVERB_MAX_LATE_REVERB_DELAY       (0.1f)
-#define EAXREVERB_DEFAULT_LATE_REVERB_DELAY   (0.011f)
-
-#define EAXREVERB_DEFAULT_LATE_REVERB_PAN_XYZ (0.0f)
 
 #define EAXREVERB_MIN_ECHO_TIME               (0.075f)
 #define EAXREVERB_MAX_ECHO_TIME               (0.25f)
-#define EAXREVERB_DEFAULT_ECHO_TIME           (0.25f)
 
 #define EAXREVERB_MIN_ECHO_DEPTH              (0.0f)
 #define EAXREVERB_MAX_ECHO_DEPTH              (1.0f)
-#define EAXREVERB_DEFAULT_ECHO_DEPTH          (0.0f)
 
 #define EAXREVERB_MIN_MODULATION_TIME         (0.04f)
 #define EAXREVERB_MAX_MODULATION_TIME         (4.0f)
-#define EAXREVERB_DEFAULT_MODULATION_TIME     (0.25f)
 
 #define EAXREVERB_MIN_MODULATION_DEPTH        (0.0f)
 #define EAXREVERB_MAX_MODULATION_DEPTH        (1.0f)
-#define EAXREVERB_DEFAULT_MODULATION_DEPTH    (0.0f)
 
 #define EAXREVERB_MIN_AIR_ABSORPTION_GAINHF   (0.892f)
 #define EAXREVERB_MAX_AIR_ABSORPTION_GAINHF   (1.0f)
-#define EAXREVERB_DEFAULT_AIR_ABSORPTION_GAINHF (0.994f)
 
 #define EAXREVERB_MIN_HFREFERENCE             (1000.0f)
 #define EAXREVERB_MAX_HFREFERENCE             (20000.0f)
-#define EAXREVERB_DEFAULT_HFREFERENCE         (5000.0f)
 
 #define EAXREVERB_MIN_LFREFERENCE             (20.0f)
 #define EAXREVERB_MAX_LFREFERENCE             (1000.0f)
-#define EAXREVERB_DEFAULT_LFREFERENCE         (250.0f)
 
 #define EAXREVERB_MIN_ROOM_ROLLOFF_FACTOR     (0.0f)
 #define EAXREVERB_MAX_ROOM_ROLLOFF_FACTOR     (10.0f)
-#define EAXREVERB_DEFAULT_ROOM_ROLLOFF_FACTOR (0.0f)
 
 #define EAXREVERB_MIN_DECAY_HFLIMIT           FALSE
 #define EAXREVERB_MAX_DECAY_HFLIMIT           TRUE
-#define EAXREVERB_DEFAULT_DECAY_HFLIMIT       TRUE
 
 typedef enum FilterType {
     /** EFX-style low-pass filter, specifying a gain and reference frequency. */
@@ -257,12 +233,7 @@ class ReverbEffect
         void Process(uint32_t SamplesToDo, const float *SamplesIn, float *SamplesOut);
         void Update(int frequency);
 
-        void LoadPreset(int environment, float environmentSize, float environmentDiffusion, int room, int roomHF, int roomLF,
-                        float decayTime, float decayHFRatio, float decayLFRatio,
-                        int reflections, float reflectionsDelay, float reflectionsPanX, float reflectionsPanY, float reflectionsPanZ,
-                        int reverb, float reverbDelay, float reverbPanX, float reverbPanY, float reverbPanZ,
-                        float echoTime, float echoDepth, float modulationTime, float modulationDepth, float airAbsorptionHF,
-                        float hfReference, float lfReference, float roomRolloffFactor, int flags);
+        void LoadPreset(float Density, float Diffusion, float Gain, float GainHF, float GainLF, float DecayTime, float DecayHFRatio, float DecayLFRatio, float ReflectionsGain, float ReflectionsDelay, float ReflectionsPanX, float ReflectionsPanY, float ReflectionsPanZ, float LateReverbGain, float LateReverbDelay, float LateReverbPanX, float LateReverbPanY, float LateReverbPanZ, float EchoTime, float EchoDepth, float ModulationTime, float ModulationDepth, float AirAbsorptionGainHF, float HFReference, float LFReference, float RoomRolloffFactor, int DecayHFLimit);
 
 
     private:

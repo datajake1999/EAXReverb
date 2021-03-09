@@ -971,45 +971,35 @@ void ReverbEffect::Update(int frequency)
 }
 
 
- float eaxDbToAmp(float eaxDb){
-    float dB = eaxDb / 2000.0f;
-    return pow(10.0f, dB);
-}
-
-void ReverbEffect::LoadPreset(int environment, float environmentSize, float environmentDiffusion, int room, int roomHF, int roomLF,
-                                float decayTime, float decayHFRatio, float decayLFRatio,
-                                int reflections, float reflectionsDelay, float reflectionsPanX, float reflectionsPanY, float reflectionsPanZ,
-                                int reverb, float reverbDelay, float reverbPanX, float reverbPanY, float reverbPanZ,
-                                float echoTime, float echoDepth, float modulationTime, float modulationDepth, float airAbsorptionHF,
-                                float hfReference, float lfReference, float roomRolloffFactor, int flags)
+void ReverbEffect::LoadPreset(float Density, float Diffusion, float Gain, float GainHF, float GainLF, float DecayTime, float DecayHFRatio, float DecayLFRatio, float ReflectionsGain, float ReflectionsDelay, float ReflectionsPanX, float ReflectionsPanY, float ReflectionsPanZ, float LateReverbGain, float LateReverbDelay, float LateReverbPanX, float LateReverbPanY, float LateReverbPanZ, float EchoTime, float EchoDepth, float ModulationTime, float ModulationDepth, float AirAbsorptionGainHF, float HFReference, float LFReference, float RoomRolloffFactor, int DecayHFLimit)
 {
-    this->settings.Density = 1.0f; // todo, currently default
-    this->settings.Diffusion = environmentDiffusion;
-    this->settings.Gain =  eaxDbToAmp(room); //0.32f;
-    this->settings.GainHF = eaxDbToAmp(roomHF); //0.89f;
-    this->settings.GainLF = eaxDbToAmp(roomLF); // 1.0f;
-    this->settings.DecayTime = decayTime;
-    this->settings.DecayHFRatio = decayHFRatio;
-    this->settings.DecayLFRatio = decayLFRatio;
-    this->settings.ReflectionsGain = eaxDbToAmp(reflections); // 0.05f;
-    this->settings.ReflectionsDelay = reflectionsDelay;
-    this->settings.ReflectionsPan[0] = reflectionsPanX;
-    this->settings.ReflectionsPan[1] = reflectionsPanY;
-    this->settings.ReflectionsPan[2] = reflectionsPanZ;
-    this->settings.LateReverbGain = eaxDbToAmp(reverb); //1.26f;
-    this->settings.LateReverbDelay = reverbDelay;
-    this->settings.LateReverbPan[0] = reverbPanX;
-    this->settings.LateReverbPan[1] = reverbPanY;
-    this->settings.LateReverbPan[2] = reverbPanZ;
-    this->settings.EchoTime = echoTime;
-    this->settings.EchoDepth = echoDepth;
-    this->settings.ModulationTime = modulationTime;
-    this->settings.ModulationDepth = modulationDepth;
-    this->settings.AirAbsorptionGainHF = eaxDbToAmp(airAbsorptionHF); //0.995f;
-    this->settings.HFReference = hfReference;
-    this->settings.LFReference = lfReference;
-    this->settings.RoomRolloffFactor = roomRolloffFactor;
-    this->settings.DecayHFLimit = 1;
+    this->settings.Density = Density;
+    this->settings.Diffusion = Diffusion;
+    this->settings.Gain =  Gain;
+    this->settings.GainHF = GainHF;
+    this->settings.GainLF = GainLF;
+    this->settings.DecayTime = DecayTime;
+    this->settings.DecayHFRatio = DecayHFRatio;
+    this->settings.DecayLFRatio = DecayLFRatio;
+    this->settings.ReflectionsGain = ReflectionsGain;
+    this->settings.ReflectionsDelay = ReflectionsDelay;
+    this->settings.ReflectionsPan[0] = ReflectionsPanX;
+    this->settings.ReflectionsPan[1] = ReflectionsPanY;
+    this->settings.ReflectionsPan[2] = ReflectionsPanZ;
+    this->settings.LateReverbGain = LateReverbGain;
+    this->settings.LateReverbDelay = LateReverbDelay;
+    this->settings.LateReverbPan[0] = LateReverbPanX;
+    this->settings.LateReverbPan[1] = LateReverbPanY;
+    this->settings.LateReverbPan[2] = LateReverbPanZ;
+    this->settings.EchoTime = EchoTime;
+    this->settings.EchoDepth = EchoDepth;
+    this->settings.ModulationTime = ModulationTime;
+    this->settings.ModulationDepth = ModulationDepth;
+    this->settings.AirAbsorptionGainHF = AirAbsorptionGainHF;
+    this->settings.HFReference = HFReference;
+    this->settings.LFReference = LFReference;
+    this->settings.RoomRolloffFactor = RoomRolloffFactor;
+    this->settings.DecayHFLimit = DecayHFLimit;
 }
 
 void ReverbEffect::Create(uint32_t frequency)
@@ -1103,33 +1093,7 @@ void ReverbEffect::Create(uint32_t frequency)
 
     this->Offset = 0;
 
-    this->settings.Density   = EAXREVERB_DEFAULT_DENSITY;
-    this->settings.Diffusion = EAXREVERB_DEFAULT_DIFFUSION;
-    this->settings.Gain   = EAXREVERB_DEFAULT_GAIN;
-    this->settings.GainHF = EAXREVERB_DEFAULT_GAINHF;
-    this->settings.GainLF = EAXREVERB_DEFAULT_GAINLF;
-    this->settings.DecayTime    = EAXREVERB_DEFAULT_DECAY_TIME;
-    this->settings.DecayHFRatio = EAXREVERB_DEFAULT_DECAY_HFRATIO;
-    this->settings.DecayLFRatio = EAXREVERB_DEFAULT_DECAY_LFRATIO;
-    this->settings.ReflectionsGain   = EAXREVERB_DEFAULT_REFLECTIONS_GAIN;
-    this->settings.ReflectionsDelay  = EAXREVERB_DEFAULT_REFLECTIONS_DELAY;
-    this->settings.ReflectionsPan[0] = EAXREVERB_DEFAULT_REFLECTIONS_PAN_XYZ;
-    this->settings.ReflectionsPan[1] = EAXREVERB_DEFAULT_REFLECTIONS_PAN_XYZ;
-    this->settings.ReflectionsPan[2] = EAXREVERB_DEFAULT_REFLECTIONS_PAN_XYZ;
-    this->settings.LateReverbGain   = EAXREVERB_DEFAULT_LATE_REVERB_GAIN;
-    this->settings.LateReverbDelay  = EAXREVERB_DEFAULT_LATE_REVERB_DELAY;
-    this->settings.LateReverbPan[0] = EAXREVERB_DEFAULT_LATE_REVERB_PAN_XYZ;
-    this->settings.LateReverbPan[1] = EAXREVERB_DEFAULT_LATE_REVERB_PAN_XYZ;
-    this->settings.LateReverbPan[2] = EAXREVERB_DEFAULT_LATE_REVERB_PAN_XYZ;
-    this->settings.EchoTime  = EAXREVERB_DEFAULT_ECHO_TIME;
-    this->settings.EchoDepth = EAXREVERB_DEFAULT_ECHO_DEPTH;
-    this->settings.ModulationTime  = EAXREVERB_DEFAULT_MODULATION_TIME;
-    this->settings.ModulationDepth = EAXREVERB_DEFAULT_MODULATION_DEPTH;
-    this->settings.AirAbsorptionGainHF = EAXREVERB_DEFAULT_AIR_ABSORPTION_GAINHF;
-    this->settings.HFReference = EAXREVERB_DEFAULT_HFREFERENCE;
-    this->settings.LFReference = EAXREVERB_DEFAULT_LFREFERENCE;
-    this->settings.RoomRolloffFactor = EAXREVERB_DEFAULT_ROOM_ROLLOFF_FACTOR;
-    this->settings.DecayHFLimit = EAXREVERB_DEFAULT_DECAY_HFLIMIT;
+    LoadPreset(EFX_REVERB_PRESET_GENERIC);
 
     // Allocate the delay lines.
     AllocLines(frequency);

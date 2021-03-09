@@ -1126,6 +1126,8 @@ void ReverbEffect::Create(uint32_t frequency)
     // needs to be calculated once.
     this->Echo.ApOffset = Truncate(ECHO_ALLPASS_LENGTH * frequency);
 
+    Update(frequency);
+
 }
 
 void ReverbEffect::Destroy()

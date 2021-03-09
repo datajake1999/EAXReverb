@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "efx-presets.h"
 
-#define BOOL int
+typedef int BOOL;
 
 #define OUTPUT_CHANNELS 2
 #define TRUE 1

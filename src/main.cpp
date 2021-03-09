@@ -48,7 +48,8 @@ int main()
 
 
     printf("Initializing effect...\n");
-    ReverbEffect effect(frequency);
+    ReverbEffect effect;
+    effect.Create(frequency);
 
 
     printf("Applying enviroment reverb effect...\n");
@@ -107,6 +108,8 @@ int main()
 
 
     fclose(fp);
+
+    effect.Destroy();
 
     printf("Done!\n");
 

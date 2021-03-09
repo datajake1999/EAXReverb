@@ -251,8 +251,8 @@ typedef struct {
 class ReverbEffect
 {
     public:
-        ReverbEffect(uint32_t frequency);
-        virtual ~ReverbEffect();
+        void Create(uint32_t frequency);
+        void Destroy();
 
         void Process(uint32_t SamplesToDo, const float *SamplesIn, float *SamplesOut);
         void Update(int frequency);

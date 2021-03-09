@@ -1012,7 +1012,7 @@ void ReverbEffect::LoadPreset(int environment, float environmentSize, float envi
     this->settings.DecayHFLimit = 1;
 }
 
-ReverbEffect::ReverbEffect(uint32_t frequency)
+void ReverbEffect::Create(uint32_t frequency)
 {
     ambiCoeffs[0][0] = 0.7071f;
     ambiCoeffs[0][1] = 0.5f;
@@ -1157,7 +1157,7 @@ ReverbEffect::ReverbEffect(uint32_t frequency)
 
 }
 
-ReverbEffect::~ReverbEffect()
+void ReverbEffect::Destroy()
 {
     delete[] this->SampleBuffer;
     this->SampleBuffer = NULL;
